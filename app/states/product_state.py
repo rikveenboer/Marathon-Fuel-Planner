@@ -121,3 +121,16 @@ class ProductState(rx.State):
     def close_save_plan_modal(self):
         self.save_plan_modal_open = False
         self.new_plan_name = ""
+
+    @rx.event
+    async def save_current_plan(self):
+        from app.states.fuel_state import FuelState
+
+        if not self.new_plan_name:
+            yield rx.toast("Please enter a name for your plan.", duration=3000)
+            return
+        fuel_state = await self.get_state(FuelState)
+        new_saved_plan = SavedPlan(name=self.new_plan_name, plan=fuel_state.fuel_plan)
+        self.saved_plans.append(new_saved_plan)
+        yield ProductState.close_save_plan_modal()
+        yield rx.toast(f"Plan '{self.new_plan_name}' saved!", duration=3000)

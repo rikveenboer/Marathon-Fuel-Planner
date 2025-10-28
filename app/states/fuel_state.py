@@ -189,22 +189,6 @@ class FuelState(rx.State):
         self.fuel_plan = self.fuel_plan
 
     @rx.event
-    async def save_current_plan(self):
-        from app.states.product_state import ProductState
-
-        product_state = await self.get_state(ProductState)
-        if not product_state.new_plan_name:
-            yield rx.toast("Please enter a name for your plan.", duration=3000)
-            return
-        new_saved_plan = SavedPlan(
-            name=product_state.new_plan_name, plan=self.fuel_plan
-        )
-        product_state.saved_plans.append(new_saved_plan)
-        product_state.saved_plans = product_state.saved_plans
-        yield product_state.close_save_plan_modal()
-        yield rx.toast(f"Plan '{product_state.new_plan_name}' saved!", duration=3000)
-
-    @rx.event
     def load_plan(self, plan_to_load: SavedPlan):
         self.fuel_plan = plan_to_load["plan"]
         self.plan_generated = True

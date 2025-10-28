@@ -30,7 +30,7 @@ def save_plan_modal() -> rx.Component:
                     rx.radix.primitives.dialog.close(
                         rx.el.button("Cancel", variant="soft", color_scheme="gray")
                     ),
-                    rx.el.button("Save Plan", on_click=FuelState.save_current_plan),
+                    rx.el.button("Save Plan", on_click=ProductState.save_current_plan),
                     class_name="flex justify-end gap-4 mt-6",
                 ),
                 class_name="bg-white p-6 rounded-lg shadow-lg w-full max-w-md",
